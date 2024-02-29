@@ -1,0 +1,78 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #ccffcc;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px;
+    text-align: right;
+}
+
+h1 {
+    color: green;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: green;
+    color: #fff;
+}
+
+td {
+    background-color: #fff;
+}
+
+.ds_form {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+#user-greeting {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#logout-btn {
+    display: inline-block;
+}
+
+input[type="submit"][name="btXoa"] {
+    background-color: red;
+    color: #fff;
+    border: 2px solid black;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+input[type="button"] {
+    background-color: green;
+    color: #fff;
+    border: 2px solid black;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: brown;
+}
+
+input[type="button"]:hover {
+    background-color: #2980b9;
+}
