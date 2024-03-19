@@ -59,51 +59,6 @@ class Cay
         return $this->tree_price;
     }
 
-    function set_tree_id($id)
-    {
-        $this->tree_id = $id;
-    }
-
-    function set_tree_name($name)
-    {
-        $this->tree_name = $name;
-    }
-
-    function set_tree_category($cate)
-    {
-        $this->tree_category = $cate;
-    }
-
-    function set_tree_height($height)
-    {
-        $this->tree_height = $height;
-    }
-
-    function set_tree_location($location)
-    {
-        $this->tree_location = $location;
-    }
-
-    function set_tree_care($care)
-    {
-        $this->tree_care = $care;
-    }
-
-    function set_tree_bls_sns($bls_sns)
-    {
-        $this->tree_blossom_season = $bls_sns;
-    }
-
-    function set_tree_pic($pic)
-    {
-        $this->tree_pic = $pic;
-    }
-
-    function set_tree_price($price)
-    {
-        $this->tree_price = $price;
-    }
-
     function copy_Cay($id, $name, $cate, $height, $location, $care, $bls_sns, $pic, $price)
     {
         $this->tree_id = $id;
@@ -167,10 +122,30 @@ class Cay
             }
         }
 
-        $this->ngatKetNoi_MySQL();
+        return $result;
+    }
+
+    function danhSach_Loai()
+    {
+        global $connect;
+
+        $this->ketNoi_MySQL();
+
+        $lenh_sql = "SELECT * FROM t_category";
+
+        $query = mysqli_query($connect, $lenh_sql);
+
+        $result = array();
+
+        if ($query) {
+            while ($row = mysqli_fetch_assoc($query)) {
+                $result[] = $row;
+            }
+        }
 
         return $result;
     }
+    
     function lay_Cay($ten)
     {
         global $connect;
@@ -193,14 +168,14 @@ class Cay
         return $list_tree;
     }
 
-    function them_Cay($tree_name, $tree_cate_name, $tree_height, $tree_location, $tree_care, $tree_blossom_season, $tree_pic, $tree_price)
+    function them_Cay($tree_name, $cate_id, $tree_height, $tree_location, $tree_care, $tree_blossom_season, $tree_pic, $tree_price)
     {
         global $connect;
 
         $this->ketNoi_MySQL();
 
         $tree_name = mysqli_real_escape_string($connect, $tree_name);
-        $tree_cate_name = mysqli_real_escape_string($connect, $tree_cate_name);
+        $tree_cate_name = mysqli_real_escape_string($connect, $cate_id);
         $tree_height = mysqli_real_escape_string($connect, $tree_height);
         $tree_location = mysqli_real_escape_string($connect, $tree_location);
         $tree_care = mysqli_real_escape_string($connect, $tree_care);
@@ -216,24 +191,14 @@ class Cay
             echo "Cây đã tồn tại! Hãy thử lại!";
             return;
         } else {
-            $lenh_sql_get_cate_id = "SELECT CATE_ID FROM t_category WHERE CATE_NAME = '$tree_cate_name'";
-            $query_get_cate_id = mysqli_query($connect, $lenh_sql_get_cate_id);
-
-            if ($row = mysqli_fetch_assoc($query_get_cate_id)) {
-                $tree_category_id = $row['CATE_ID'];
-
-                // Insert the tree into the 't_tree' table
-                $sql_them = "INSERT INTO t_tree (tree_name, tree_category_id, tree_height, tree_location, tree_care, tree_blossom_season, tree_pic, tree_price) 
-            VALUES ('$tree_name','$tree_category_id','$tree_height','$tree_location','$tree_care','$tree_blossom_season','$tree_pic','$tree_price')";
+                $sql_them = "INSERT INTO t_tree (tree_name, cate_id, tree_height, tree_location, tree_care, tree_blossom_season, tree_pic, tree_price) 
+                        VALUES ('$tree_name','$cate_id','$tree_height','$tree_location','$tree_care','$tree_blossom_season','$tree_pic','$tree_price')";
 
                 $query_them = mysqli_query($connect, $sql_them);
 
                 echo "Đã thêm cây $tree_name thành công!";
-            } else {
-                echo "Lỗi: Không tìm thấy loại cây '$tree_cate_name' trong danh mục!";
             }
 
-        }
     }
     function sua_Cay($tree_id, $tree_height, $tree_location, $tree_care, $tree_price)
     {
@@ -280,24 +245,17 @@ class Cay
         $query_check = mysqli_query($connect, $lenh_sql_check);
 
         if (mysqli_num_rows($query_check) > 0) {
-            // echo "Bạn có chắc chắn muốn xoá cây $tree_name? (Y/N)";
-            // $confirmation = fgets(STDIN);
-            // $confirmation = trim($confirmation);
             $row = mysqli_fetch_assoc($query_check);
             $tree_name = $row['TREE_NAME'];
-            // if (strtolower($confirmation) == "y") {
             $sql_xoa = "DELETE FROM t_tree WHERE tree_id = '$tree_id' ";
             mysqli_query($connect, $sql_xoa);
             echo "Đã xoá thành công cây $tree_name!";
-            // } else {
-            //     echo "Không xoá cây!";
-            // }
         } else {
             echo "Cây không tồn tại! Hãy thử lại!";
         }
     }
 }
 
-$connect = null; // initialize $connect variable
+$connect = null; 
 
 ?>

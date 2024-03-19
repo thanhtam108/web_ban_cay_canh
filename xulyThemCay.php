@@ -4,130 +4,103 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Xử lý Thêm cây</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        h1 {
-            color: #333;
-            margin-top: 20px;
-        }
-
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
-
-        table {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #3498db;
-            color: #fff;
-        }
-
-        td img {
-            max-width: 100px;
-            max-height: 100px;
-        }
-
-        .error {
-            color: red;
-        }
-
-        a {
-            margin-top: 20px;
-            text-decoration: none;
-            color: #3498db;
-            font-weight: bold;
-        }
-    </style>
+    <link rel="stylesheet" href="stylesXLThemCay.css">
 </head>
 
 <body>
-    <h1> THÊM CÂY MỚI </h1>
+    <header>
+        <a href="danhsachCay.php"> Trở về </a>
+        <h1> THÊM CÂY MỚI </h1>
+    </header>
 
     <?php
-    include("Cay.php");
+    include "Cay.php";
     $tree = new Cay();
 
-    if (isset($_POST["them_cay"])) {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $tree_name = $_POST["tree_name"];
         $tree_category = $_POST["tree_category"];
         $tree_height = $_POST["tree_height"];
-        $tree_location = $_POST["tree_location"];                           
+        $tree_location = $_POST["tree_location"];
         $tree_care = $_POST["tree_care"];
         $tree_blossom_season = $_POST["tree_bls_sns"];
-        $tree_pic = $_POST["tree_pic"];
         $tree_price = $_POST["tree_price"];
+
+        if (isset($_FILES['tree_pic']) && $_FILES['tree_pic']['error'] === UPLOAD_ERR_OK) {
+            $pic_name = $_FILES['tree_pic']['name'];
+            $file_tmp_name = $_FILES['tree_pic']['tmp_name'];
+            $file_size = $_FILES['tree_pic']['size'];
+            $file_type = $_FILES['tree_pic']['type'];
+
+            $upload_directory = "images/";
+            $target_file = $upload_directory . basename($pic_name);
+
+            if (move_uploaded_file($file_tmp_name, $target_file)) {
+                echo "<p> Upload ảnh thành công <p>";
+            } else {
+                echo "Lỗi tải file ảnh lên.";
+            }
+        } else {
+            echo "Lỗi! Không có file nào được tải lên!";
+        }
 
         if (
             empty($tree_name) || empty($tree_category) || empty($tree_height)
-            || empty($tree_location) || empty($tree_care) || empty($tree_blossom_season)
-            || empty($tree_price) || empty($tree_pic)
+            || empty($tree_location) || empty($tree_care)
+            || empty($tree_blossom_season) || empty($tree_price)
         ) {
             echo "<p class='error'>Lỗi dữ liệu bị trống! Vui lòng nhập đầy đủ thông tin.</p>";
         } else {
-            $tree->them_Cay($tree_name, $tree_category, $tree_height, $tree_location, $tree_care, $tree_blossom_season, $tree_pic, $tree_price);
+            $tree->them_Cay($tree_name, $tree_category, $tree_height, $tree_location, $tree_care, $tree_blossom_season, $pic_name, $tree_price);
         }
     }
     ?>
 
-    <form action="xulyThemCay.php" method="post">
+    <form action="xulyThemCay.php" method="post" enctype="multipart/form-data">
         <table>
             <tr>
                 <td>Tên cây:</td>
-                <td><input type="text" name="tree_name"></td>
+                <td><input type="text" name="tree_name" required></td>
             </tr>
             <tr>
                 <td>Loại cây:</td>
-                <td><input type="text" name="tree_category"></td>
+                <td>
+                    <select name="tree_category" required>
+                        <?php
+                        $categories = $tree->danhSach_Loai();
+                        foreach ($categories as $category) {
+                            echo "<option value='" . $category['CATE_ID'] . "'>" . $category['CATE_NAME'] . "</option>";
+                        }
+                        ?>
+                    </select>
+                </td>
             </tr>
             <tr>
-                <td>Chiều cao:</td>
-                <td><input type="text" name="tree_height"></td>
+                <td>Chiều cao cây:</td>
+                <td><input type="text" name="tree_height" required></td>
             </tr>
             <tr>
-                <td>Nơi trồng:</td>
-                <td><input type="text" name="tree_location"></td>
+                <td>Nơi trồng cây:</td>
+                <td><input type="text" name="tree_location" required></td>
             </tr>
             <tr>
                 <td>Cách chăm sóc:</td>
-                <td><input type="text" name="tree_care"></td>
+                <td><input type="text" name="tree_care" required></td>
             </tr>
             <tr>
                 <td>Mùa nở hoa:</td>
-                <td><input type="text" name="tree_bls_sns"></td>
+                <td><input type="text" name="tree_bls_sns" required></td>
             </tr>
             <tr>
                 <td>Ảnh:</td>
-                <td><input type="file" name="tree_pic"></td>
+                <td><input type="file" name="tree_pic" accept="image/*" required></td>
             </tr>
             <tr>
                 <td>Giá:</td>
-                <td><input type="text" name="tree_price"></td>
+                <td><input type="text" name="tree_price" required></td>
             </tr>
             <tr>
-                <td><input type="submit" name="them_cay" value="Thêm cây mới"></td>
+                <td><input type="submit" name="them_cay" value="Thêm cây"></td>
                 <td><input type="reset" value="Làm lại"></td>
             </tr>
         </table>

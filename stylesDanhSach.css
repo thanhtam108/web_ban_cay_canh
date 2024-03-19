@@ -6,7 +6,7 @@ body {
 }
 
 header {
-    background-color: #3498db;
+    background-color: #5CDC05;
     color: #fff;
     padding: 10px;
     text-align: right;
@@ -69,8 +69,8 @@ input[type="button"] {
     cursor: pointer;
 }
 
-input[type="submit"]:hover {
-    background-color: brown;
+input[type="submit"][name="mua"]:hover {
+    background-color: bisque;
 }
 
 input[type="button"]:hover {

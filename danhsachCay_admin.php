@@ -44,22 +44,30 @@ session_start();
             <th>Các thao tác</th>
         </tr>
         <?php
-        include("Cay.php");
+        include "Cay.php";
         $tree = new Cay();
         $list_tree = $tree->danhSach_Cay();
+        $list_cate = $tree->danhSach_Loai();
         $i = 1;
         foreach ($list_tree as $item) {
             echo "<tr>";
             echo "<td align='center'>" . $i . "</td>";
             $i++;
-            echo "<td>" . (isset($item['TREE_ID']) ? $item['TREE_ID'] : '') . "</td>";
-            echo "<td>" . (isset($item['TREE_NAME']) ? $item['TREE_NAME'] : '') . "</td>";
-            echo "<td>" . (isset($item['TREE_CATEGORY_ID']) ? $item['TREE_CATEGORY_ID'] : '') . "</td>";
-            echo "<td>" . (isset($item['TREE_HEIGHT']) ? $item['TREE_HEIGHT'] : '') . "</td>";
-            echo "<td>" . (isset($item['TREE_LOCATION']) ? $item['TREE_LOCATION'] : '') . "</td>";
-            echo "<td>" . (isset($item['TREE_CARE']) ? $item['TREE_CARE'] : '') . "</td>";
-            echo "<td>" . (isset($item['TREE_BLOSSOM_SEASON']) ? $item['TREE_BLOSSOM_SEASON'] : '') . "</td>";
-            echo "<td>" . (isset($item['TREE_PRICE']) ? $item['TREE_PRICE'] : '') . " VNĐ" . "</td>";
+            echo "<td>" . (isset ($item['TREE_ID']) ? $item['TREE_ID'] : '') . "</td>";
+            echo "<td>" . (isset ($item['TREE_NAME']) ? $item['TREE_NAME'] : '') . "</td>";
+            $categoryName = "";
+            foreach ($list_cate as $category) {
+                if ($category['CATE_ID'] == $item['CATE_ID']) {
+                    $categoryName = $category['CATE_NAME'];
+                    break;
+                }
+            }
+            echo "<td>" . $categoryName . "</td>";
+            echo "<td>" . (isset ($item['TREE_HEIGHT']) ? $item['TREE_HEIGHT'] : '') . "</td>";
+            echo "<td>" . (isset ($item['TREE_LOCATION']) ? $item['TREE_LOCATION'] : '') . "</td>";
+            echo "<td>" . (isset ($item['TREE_CARE']) ? $item['TREE_CARE'] : '') . "</td>";
+            echo "<td>" . (isset ($item['TREE_BLOSSOM_SEASON']) ? $item['TREE_BLOSSOM_SEASON'] : '') . "</td>";
+            echo "<td>" . (isset ($item['TREE_PRICE']) ? $item['TREE_PRICE'] : '') . " VNĐ" . "</td>";
             echo "<td><img width=200px height=200px src='images/" . $item["TREE_PIC"] . "'></td>";
             echo "<td>";
             ?>

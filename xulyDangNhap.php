@@ -16,10 +16,10 @@ session_start();
 
     $tendn = $_POST["username"];
     $mk = $_POST["password"];
-    include("Cay.php");
+    include ("Cay.php");
     $tree = new Cay();
 
-    if (isset($_POST["submit"])) {
+    if (isset ($_POST["submit"])) {
         $tree->ketNoi_MySQL();
         $sql = "SELECT * FROM t_user WHERE USER_ID = '$tendn' AND USER_PASSWORD = '$mk' ";
         $kq = mysqli_query($connect, $sql);
@@ -42,8 +42,13 @@ session_start();
             <p> <a href="Trangchu.php"> Trở về trang chủ </a> </p>
             <?php
         } else {
-            $_SESSION["username"] = $tendn;
-            header("location:danhsachCay.php");
+            if ($tendn == 'admin') {
+                $_SESSION["username"] = $tendn;
+                header("location:danhsachCay_admin.php");
+            } else {
+                $_SESSION["username"] = $tendn;
+                header("location:danhsachCay_user.php");
+            }
         }
     }
     ?>
