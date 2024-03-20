@@ -26,6 +26,6 @@
 		}
 		$tree->ngatKetNoi_MySQL();
 	?> 
-  <a href="danhsachCay.php"> Trở về </a> 
+  <a href="danhsachCay_admin.php"> Trở về </a> 
 </body>
 </html>

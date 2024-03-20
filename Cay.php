@@ -154,15 +154,19 @@ class Cay
 
         $lenh_sql = "SELECT t1.*, t2.CATE_NAME 
                  FROM t_tree t1
-                 LEFT JOIN t_category t2 ON t1.TREE_CATEGORY_ID = t2.CATE_ID
+                 LEFT JOIN t_category t2 ON t1.CATE_ID = t2.CATE_ID
                  WHERE LOWER(t1.TREE_NAME) = LOWER('$ten')";
 
         $query = mysqli_query($connect, $lenh_sql);
 
-        $list_tree = array(); // Initialize an empty array to store the results
-
+        $list_tree = array(); 
+        if (!$query) {
+            die("Query failed: " . mysqli_error($connect));
+        }
+    
+        $list_tree = array(); 
         while ($row = mysqli_fetch_assoc($query)) {
-            $list_tree[] = $row; // Append each row to the array
+            $list_tree[] = $row;
         }
 
         return $list_tree;

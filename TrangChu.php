@@ -14,6 +14,7 @@
 <body>
     <nav>
         <a href="TrangChu.php">Trang Chủ</a>
+        <a href="DangKy.php">Đăng ký</a>
         <a href="DangNhap.php">Đăng nhập</a>
         <a href="TimKiemCay.php">Tìm Sản phẩm</a>
         <a href="#contacts">Liên hệ</a>

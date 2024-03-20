@@ -8,8 +8,8 @@
 </head>
 
 <body>
+    <a href="danhsachCay_admin.php"> Trở về </a>
     <header>
-        <a href="danhsachCay.php"> Trở về </a>
         <h1> THÊM CÂY MỚI </h1>
     </header>
 
@@ -139,7 +139,7 @@
         }
         ?>
     </table>
-    <a href="danhsachCay.php"> Trở về </a>
+    <a href="danhsachCay_admin.php"> Trở về </a>
 </body>
 
 </html>
