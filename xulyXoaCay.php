@@ -18,7 +18,7 @@
 
 	$cay->ngatKetNoi_MySQL();
 	?>
-	<p> <a href="danhsachCay.php"> Trở về </a> </p>
+	<p> <a href="danhsachCay_admin.php"> Trở về </a> </p>
 </body>
 
 </html>

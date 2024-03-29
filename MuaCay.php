@@ -10,7 +10,7 @@
 
 <body>
     <div class="container">
-        <h1>Enter Your Information</h1>
+        <h1>Nhập thông tin giao hàng</h1>
         <form action="process_purchase.php" method="post">
             <input type="hidden" name="tree_id" value="<?php echo isset ($_GET['TREE_ID']) ? $_GET['TREE_ID'] : ''; ?>">
             <label for="name">Họ và tên khách hàng:</label>
@@ -25,7 +25,7 @@
             <label for="address">Địa chỉ:</label>
             <textarea id="address" name="address" rows="4" required></textarea>
 
-            <input type="submit" value="Proceed to Payment">
+            <input type="submit" value="Tiến tới thanh toán">
         </form>
     </div>
 </body>
